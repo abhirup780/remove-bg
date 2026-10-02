@@ -1,0 +1,165 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BG Remove</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <!-- ============ SIDEBAR: settings ============ -->
+  <aside class="side">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3.5a3.6 3.6 0 1 1 0 7.2 3.6 3.6 0 0 1 0-7.2Zm-6.5 16c0-3.6 2.9-6.3 6.5-6.3s6.5 2.7 6.5 6.3v1h-13v-1Z"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">BG Remove</div>
+        <div class="brand-sub">Offline · private · free</div>
+      </div>
+    </div>
+
+    <section>
+      <h3>Quality</h3>
+      <div class="seg" data-key="model">
+        <button data-v="fast"><b>Fast</b><small>~2 s / photo</small></button>
+        <button data-v="best"><b>Best</b><small>~15 s / photo</small></button>
+      </div>
+    </section>
+
+    <section>
+      <h3>Background</h3>
+      <div class="swatches" data-key="bg">
+        <button data-v="transparent" title="Transparent"><span class="sw checker"></span><small>None</small></button>
+        <button data-v="white" title="White"><span class="sw" style="background:#fff"></span><small>White</small></button>
+        <button data-v="black" title="Black"><span class="sw" style="background:#000"></span><small>Black</small></button>
+        <button data-v="color" title="Custom colour"><label class="sw custom" id="colorSw"><input type="color" id="colorPick"></label><small>Colour</small></button>
+      </div>
+    </section>
+
+    <section>
+      <h3>Format</h3>
+      <div class="seg small" data-key="format">
+        <button data-v="png"><b>PNG</b></button>
+        <button data-v="webp"><b>WebP</b></button>
+        <button data-v="jpg"><b>JPG</b></button>
+      </div>
+      <p class="hint" id="fmtHint"></p>
+    </section>
+
+    <section>
+      <h3>Save to</h3>
+      <div class="radios" data-key="dest">
+        <button data-v="beside"><i></i><span>Next to original<small>photo_nobg.png</small></span></button>
+        <button data-v="subfolder"><i></i><span>“no-bg” subfolder<small>keeps originals tidy</small></span></button>
+        <button data-v="custom"><i></i><span>Choose folder…<small id="customDir">not set</small></span></button>
+      </div>
+    </section>
+
+    <section>
+      <h3>Options</h3>
+      <label class="toggle"><input type="checkbox" data-key="trim"><span></span>Crop to subject</label>
+      <label class="toggle"><input type="checkbox" data-key="recursive"><span></span>Include subfolders</label>
+    </section>
+
+    <div class="side-foot">
+      <span class="dot" id="modelDot"></span><span id="modelText">Loading model…</span>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <header class="bar">
+      <div class="bar-left">
+        <button class="btn primary" id="addFiles">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add photos</button>
+        <button class="btn" id="addFolder">
+          <svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>Add folder</button>
+      </div>
+      <div class="bar-right">
+        <button class="btn ghost" id="openOut">
+          <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Open output</button>
+      </div>
+    </header>
+
+    <!-- progress strip, visible once there is a queue -->
+    <div class="progress" id="progress" hidden>
+      <div class="p-top">
+        <div class="p-title"><strong id="pMain">0 of 0</strong><span id="pSub"></span></div>
+        <div class="p-actions">
+          <button class="btn sm" id="pauseBtn">Pause</button>
+          <button class="btn sm" id="stopBtn">Stop</button>
+          <button class="btn sm" id="retryBtn" hidden>Retry failed</button>
+        </div>
+      </div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <div class="filters" id="filters">
+        <button data-f="all" class="on">All <em id="cAll">0</em></button>
+        <button data-f="done">Done <em id="cDone">0</em></button>
+        <button data-f="pending">Pending <em id="cPend">0</em></button>
+        <button data-f="error">Failed <em id="cErr">0</em></button>
+        <span class="grow"></span>
+        <button class="link" id="clearDone">Clear finished</button>
+        <button class="link" id="clearAll">Clear all</button>
+      </div>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="empty" id="empty">
+        <div class="drop-art" aria-hidden="true">
+          <div class="card-a"></div><div class="card-b"></div>
+          <div class="card-c"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>
+        </div>
+        <h1>Drop photos or folders here</h1>
+        <p>JPG, PNG, WebP, AVIF — one photo or a thousand. Everything stays on this PC.</p>
+        <div class="empty-actions">
+          <button class="btn primary lg" id="addFiles2">Choose photos</button>
+          <button class="btn lg" id="addFolder2">Choose a folder</button>
+        </div>
+        <div class="kbd-row"><kbd>Ctrl</kbd>+<kbd>V</kbd> paste a screenshot · <kbd>Ctrl</kbd>+<kbd>O</kbd> open</div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </main>
+</div>
+
+<!-- drag overlay -->
+<div class="overlay" id="overlay"><div class="overlay-box">
+  <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+  <b>Drop to remove backgrounds</b><span>Files and folders welcome</span>
+</div></div>
+
+<!-- before / after viewer -->
+<div class="viewer" id="viewer" hidden>
+  <div class="v-head">
+    <div class="v-title"><b id="vName"></b><span id="vMeta"></span></div>
+    <div class="v-tools">
+      <div class="seg tiny" id="vBg">
+        <button data-v="checker" class="on" title="Checkerboard"><span class="sw checker"></span></button>
+        <button data-v="white" title="White"><span class="sw" style="background:#fff"></span></button>
+        <button data-v="black" title="Black"><span class="sw" style="background:#000"></span></button>
+      </div>
+      <button class="btn sm" id="vRedo">Redo with current settings</button>
+      <button class="btn sm" id="vOpen">Open</button>
+      <button class="btn sm" id="vReveal">Show in folder</button>
+      <button class="icon-btn" id="vClose" title="Close (Esc)"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+  </div>
+  <div class="v-body">
+    <button class="nav prev" id="vPrev" title="Previous (←)"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
+    <div class="compare" id="compare">
+      <img id="vAfter" alt="">
+      <div class="before-wrap" id="beforeWrap"><img id="vBefore" alt=""></div>
+      <div class="handle" id="handle"><span></span></div>
+      <div class="tag l">Original</div><div class="tag r">Result</div>
+      <div class="v-loading" id="vLoading"><div class="spinner"></div></div>
+    </div>
+    <button class="nav next" id="vNext" title="Next (→)"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button>
+  </div>
+  <div class="v-foot">Drag the slider to compare · <kbd>←</kbd><kbd>→</kbd> browse · <kbd>Esc</kbd> close</div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

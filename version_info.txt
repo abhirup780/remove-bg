@@ -1,0 +1,13 @@
+VSVersionInfo(
+  ffi=FixedFileInfo(filevers=(1, 0, 0, 0), prodvers=(1, 0, 0, 0)),
+  kids=[
+    StringFileInfo([StringTable("040904B0", [
+      StringStruct("FileDescription", "BG Remove - offline background remover"),
+      StringStruct("ProductName", "BG Remove"),
+      StringStruct("FileVersion", "1.0.0"),
+      StringStruct("ProductVersion", "1.0.0"),
+      StringStruct("OriginalFilename", "BG Remove.exe"),
+    ])]),
+    VarFileInfo([VarStruct("Translation", [1033, 1200])]),
+  ],
+)

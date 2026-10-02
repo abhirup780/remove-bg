@@ -1,0 +1,9 @@
+.venv/
+.webview/
+models/
+settings.json
+__pycache__/
+build/
+dist/
+installer/
+redist/
