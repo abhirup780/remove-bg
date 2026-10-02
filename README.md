@@ -6,8 +6,7 @@
 
 [![Download for Windows](https://img.shields.io/badge/Download_for_Windows-7C6CFF?style=for-the-badge&logo=windows11&logoColor=white)](https://github.com/abhirup780/remove-bg/releases/latest/download/BG-Remove-Setup-1.0.0.exe)
 
-[![Release](https://img.shields.io/github/v/release/abhirup780/remove-bg?style=flat-square&color=7c6cff&label=release)](https://github.com/abhirup780/remove-bg/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/abhirup780/remove-bg/total?style=flat-square&color=3ecf8e)](https://github.com/abhirup780/remove-bg/releases)
+[![Release](https://img.shields.io/github/v/release/abhirup780/remove-bg?style=flat-square&color=7c6cff&label=release&cacheSeconds=3600)](https://github.com/abhirup780/remove-bg/releases/latest)
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows&logoColor=white)](#system-requirements)
 [![License: MIT](https://img.shields.io/badge/license-MIT-a594ff?style=flat-square)](LICENSE)
 
